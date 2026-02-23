@@ -22,7 +22,7 @@ transformations:
   - name: calculate_usd_notional
     type: derive
     column: notional_usd
-    formula: notional_amount * rate_to_usd
+    formula: cast(notional_amount as double) * cast(rate_to_usd as double)
 
   - name: filter_high_risk
     type: filter
