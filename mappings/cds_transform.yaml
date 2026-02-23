@@ -1,0 +1,33 @@
+pipeline: bank_cds_pipeline
+
+source:
+  cds_file: cds_trades_raw.csv
+  counterparty_file: counterparty_master.csv
+  fx_file: fx_rates.csv
+
+transformations:
+
+  - name: enrich_counterparty
+    type: join
+    left: cds
+    right: counterparty
+    on: counterparty
+
+  - name: enrich_fx
+    type: join
+    left: cds
+    right: fx
+    on: currency
+
+  - name: calculate_usd_notional
+    type: derive
+    column: notional_usd
+    formula: notional_amount * rate_to_usd
+
+  - name: filter_high_risk
+    type: filter
+    condition: risk_level != "High"
+
+output:
+  format: parquet
+  partition_by: trade_date

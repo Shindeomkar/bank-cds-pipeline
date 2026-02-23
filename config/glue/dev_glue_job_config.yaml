@@ -1,0 +1,17 @@
+job_name: bank_cds_etl_dev
+
+description: "Bank CDS ETL Pipeline - Dev"
+
+python_script: src/glue/entry.py
+
+etl_settings:
+
+  landing_bucket: bank-cds-landing-omkar-dev
+  gold_bucket: bank-cds-gold-omkar-dev
+
+  cds_path: raw/cds/cds_trades_raw.csv
+  reference_path: raw/reference/
+
+  temp_dir: s3://bank-cds-artifacts-omkar-dev/temp/
+
+  environment: dev
